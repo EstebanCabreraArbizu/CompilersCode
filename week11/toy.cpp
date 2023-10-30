@@ -3,6 +3,10 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
+#include <map> 
+#include <memory>
+#include <string>
+#include <vector>
 
 enum Token {
 	tok_eof = -1,
