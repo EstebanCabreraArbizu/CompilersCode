@@ -11,25 +11,35 @@
 #include <memory>
 #include <string>
 #include <vector>
+/*
+   ----------
+   LEXER
+   ----------
+*/
 
 enum Token {
 	tok_eof = -1,
+	//comands
 	tok_def = -2,
 	tok_extern = -3,
 
+	//primary tokens
 	tok_identifier = -4,
 	tok_number = -5,
 };
 
-static std::string IdentifierStr;
-static double NumVal;
+static std::string IdentifierStr; //If token is tok_identifier, fill the array
+static double NumVal; //If token is tok_number, fill this varible with his value
 
-static int gettok() { // identifier: [a-zA-Z][a-zA-Z0-9]*
+/* gettok - Return the next token from standard input.*/
+static int gettok() { 
 	static int LastChar = ' ';
-
+	// skip any whitespace
 	while (isspace(LastChar)) LastChar = getchar();
 
-	if (isalpha(LastChar)) {
+	/*To handle the alphanumeric numbers*/
+
+	if (isalpha(LastChar)) { // identifier: [a-zA-Z][a-zA-Z0-9]*
 		IdentifierStr = LastChar;
 		while (isalnum((LastChar = getchar()))) {
 			IdentifierStr += LastChar;
@@ -37,8 +47,10 @@ static int gettok() { // identifier: [a-zA-Z][a-zA-Z0-9]*
 		if (IdentifierStr == "def") return tok_def;
 		if (IdentifierStr == "extern") return tok_extern;
 
-		return tok_identifier;
+		return tok_identifier; //return the type of token
 	}
+
+	/*To handle the digit numbers*/
 
 	if (isdigit(LastChar) || LastChar == '.') {    // Number: [0-9.]+
 		std::string NumStr;
@@ -46,10 +58,15 @@ static int gettok() { // identifier: [a-zA-Z][a-zA-Z0-9]*
 			NumStr += LastChar;
 			LastChar = getchar();
 		} while (isdigit(LastChar) || LastChar == '.');
-		NumVal = strtod(NumStr.c_str(), 0);
+		NumVal = strtod(NumStr.c_str(), 0); // convert this string in a numeric value
 
-		return tok_number;
+		return tok_number;  // return the type of token
+		/*
+		this isn’t doing sufficient error checking: it will incorrectly read “1.23.45.67” and handle it as if you typed in “1.23”
+		*/
 	}
+
+	/*To handle the commets*/
 
 	if (LastChar == '#') {
 		// Comment until end of line.
@@ -71,24 +88,30 @@ static int gettok() { // identifier: [a-zA-Z][a-zA-Z0-9]*
 
 /*
    Cambios realizado de la segunda sesión:
-   Creación del Abstract Syntax Tree (Parse Tree)
+   Creación del Parser Abstract Syntax Tree (Parse Tree)
 */
 namespace {
 
+// ExprAST - Base class for all expression nodes.
 class ExprAST{
 	public:
 	  virtual ~ExprAST() = default; //método sobrescrito por una clase hija: virtual -> clase abstracta pura -> interfaz 
 };
+
+// NumberExprAST - Expression class for numeric literals like "1.0".
 class NumberExprAST : public ExprAST{ //Se recomienda que las herencia sea con clases abstractas
     double Val;
 	public:
 	 NumberExprAST(double Val): Val(Val)/*Directamente se le asigna el valor*/{; /*this->Val = Val Se reserva el espacio de memoria para luego asignarla*/}
 };
+
+/// VariableExprAST - Expression class for referencing a variable, like "a".
 class VariableExprAST: public ExprAST{
 	std::string Name;
 	public:
 	 VariableExprAST(const std::string Name): Name(Name) {}
 };
+
 class BinaryExprAST: public ExprAST{
 	char Op;
 	std::unique_ptr<ExprAST> LHS, RHS;
@@ -378,6 +401,12 @@ static void MainLoop() {
 }
 
 int main() {
+	int tok;
+	while((tok = gettok()) != tok_eof){
+		std::cout<<tok<<" -> \n";
+	}
+	return 0;
+	/*
 	BinopPrecedence['<'] = 10;
 	BinopPrecedence['+'] = 20;
 	BinopPrecedence['-'] = 20;
@@ -389,7 +418,7 @@ int main() {
 
 	MainLoop();
 	
-	return 0;
+	return 0;*/
 }
 
 /*
