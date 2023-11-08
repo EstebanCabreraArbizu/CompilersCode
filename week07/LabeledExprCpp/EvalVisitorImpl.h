@@ -13,14 +13,14 @@ public:
 	/* ID '=' expr NEWLINE */
 	std::any visitAssign(LabeledExprParser::AssignContext* ctx) {
 		std::string id = ctx->ID()->getText();
-		auto value = visitChildren(ctx->expr());
+		auto value = visit(ctx->expr());
 		memory[id] = value;
 		return value;
 	}
 
 	/* expr NEWLINE */
 	std::any visitPrintExpr(LabeledExprParser::PrintExprContext* ctx) {
-		auto value = visitChildren(ctx->expr());
+		auto value = visit(ctx->expr());
 		std::cout << std::any_cast<int>(value) << '\n';
 		return std::any();
 	}
@@ -39,15 +39,14 @@ public:
 
 	/* expr op=('*'|'/') expr */
 	std::any visitMulDiv(LabeledExprParser::MulDivContext* ctx) {
-		auto left = std::any_cast<int>(visit(ctx->expr(0)));
-		auto right = std::any_cast<int>(visit(ctx->expr(1)));
-		int resp;
+		int  left = std::any_cast<int>(visit(ctx->expr(0)));
+		int right = std::any_cast<int>(visit(ctx->expr(1)));
 		if (ctx->op->getType() == LabeledExprParser::MUL) {
-			resp = left * right;
+			return left * right;
 		} else {
-			resp = left / right;
+			return  left / right;
 		}
-		return std::any(resp);
+		//return std::any(resp);
 	}
 
 	/* expr op=('+'|'-') expr */
@@ -56,17 +55,17 @@ public:
 		auto right = std::any_cast<int>(visit(ctx->expr(1)));
 		int resp;
 		if (ctx->op->getType() == LabeledExprParser::ADD) {
-			resp = left + right;
+			return left + right;
 		} else {
-			resp = left - right;
+			return left - right;
 		}
-		return std::any(resp);
+		//return std::any(resp);
 	}
 
 
 	/* '(' expr ')' */
 	std::any visitParens(LabeledExprParser::ParensContext* ctx) {
-		return visitChildren(ctx->expr());
+		return visit(ctx->expr());
 	}
 
 	std::any visitProg(LabeledExprParser::ProgContext* ctx) {

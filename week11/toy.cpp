@@ -76,6 +76,8 @@ static int gettok() {
 
 		if (LastChar != EOF) return gettok();
 	}
+
+	/*If the token is not any of the above cases*/
 	// Check for end of file.  Don't eat the EOF.
 	if (LastChar == EOF) return tok_eof;
 
@@ -88,14 +90,14 @@ static int gettok() {
 
 /*
    Cambios realizado de la segunda sesión:
-   Creación del Parser Abstract Syntax Tree (Parse Tree)
+   Creation of Parser and Abstract Syntax tree/AST (Parse Tree)
 */
 namespace {
 
 // ExprAST - Base class for all expression nodes.
 class ExprAST{
 	public:
-	  virtual ~ExprAST() = default; //método sobrescrito por una clase hija: virtual -> clase abstracta pura -> interfaz 
+	  virtual ~ExprAST() = default; //método sobrescrito por una clase hija == virtual -> clase abstracta pura -> interfaz 
 };
 
 // NumberExprAST - Expression class for numeric literals like "1.0".
@@ -105,23 +107,26 @@ class NumberExprAST : public ExprAST{ //Se recomienda que las herencia sea con c
 	 NumberExprAST(double Val): Val(Val)/*Directamente se le asigna el valor*/{; /*this->Val = Val Se reserva el espacio de memoria para luego asignarla*/}
 };
 
-/// VariableExprAST - Expression class for referencing a variable, like "a".
+// VariableExprAST - Expression class for referencing a variable, like "a".
 class VariableExprAST: public ExprAST{
 	std::string Name;
 	public:
 	 VariableExprAST(const std::string Name): Name(Name) {}
 };
 
+// BinaryExprAST - Expression class for a binary operator.
 class BinaryExprAST: public ExprAST{
 	char Op;
-	std::unique_ptr<ExprAST> LHS, RHS;
+	//LHS: Left Hand Side
+	//RHS: Right Hand Side
+	std::unique_ptr<ExprAST> LHS, RHS; //Puntero inteligente que obtiene las expresiones de izquierda y derecha
 
 	public:
 	  BinaryExprAST(char Op, std::unique_ptr<ExprAST> LHS,
                 std::unique_ptr<ExprAST> RHS)
       : Op(Op), LHS(std::move(LHS)), RHS(std::move(RHS)) {}
 };
-
+// CallExprAST - Expression class for function calls.
 class CallExprAST: public ExprAST{
 	std::string Calle;
 	std::vector<std::unique_ptr<ExprAST>> Args;
@@ -131,14 +136,21 @@ class CallExprAST: public ExprAST{
 	   std::vector<std::unique_ptr<ExprAST>> Args)
 	   : Calle(Calle), Args(std::move(Args)){}
 };
+
+/// PrototypeAST - This class represents the "prototype" for a function,
+/// which captures its name, and its argument names (thus implicitly the number
+/// of arguments the function takes).
 class PrototypeAST{
-	std::string Name;
+	std::string Name; 
 	std::vector<std::string> Args;
 	public:
 	  PrototypeAST(const std::string &Name, std::vector<std::string> Args)
 	    :Name(Name), Args(std::move(Args)){}
 	  const std::string &getName() const{return Name;} //No se pueden modificar los elementos salidos y entrantes del valor al ser constantes
+	                                                   //En este caso sería el nombre
 };
+
+/// FunctionAST - This class represents a function definition itself
 class FunctionAST{
 	std::unique_ptr<PrototypeAST> Proto;
 	std::unique_ptr<ExprAST> Body;
