@@ -26,6 +26,6 @@ int main(int argc, char** argv) {
     EvalVisitorImpl eval;
     eval.visitProg(tree);
     return 0;
-
+}
 //clang++ -std=c++17  -I $ANTLR4I -L $ANTLR4L -lantlr4-runtime  *.cpp
 //g++ *.cpp -I $ANTLR4I -L $ANTLR4L -lantlr4-runtime
