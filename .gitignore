@@ -1,3 +1,5 @@
+#clangd archives
+.clangd
 # Prerequisites
 *.d
 
