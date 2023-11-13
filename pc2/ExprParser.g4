@@ -1,9 +1,7 @@
 parser grammar ExprParser;
 options { tokenVocab=ExprLexer; }
 
-numberexpr : NUM {
-    $$ = new NumberNode($NUM.text);
-};
+numberexpr : NUM;
 parenexpr : LPAREN expression RPAREN;
 identifierexpr
     : ID
