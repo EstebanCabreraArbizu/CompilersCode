@@ -9,13 +9,15 @@ class MainLLVM{
     public:
     MainLLVM();
     void run(const std::string&program);
+    void exec(const std::string& program);
+    
     private:
     void saveModuleToFile(const std::string& filename);
     void moduleInit();
-    void exec(const  std::string& program);
     std::unique_ptr<llvm::LLVMContext> context;
     std::unique_ptr<llvm::Module> module;
-    std::unique_ptr<llvm::IRBuilder> builder;
+    std::unique_ptr<llvm::IRBuilder<>> builder;
+
 };
 
 #endif
