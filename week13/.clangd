@@ -1,0 +1,15 @@
+{
+    "CompileFlags": {
+        "resourceDir": "/usr/lib/llvm-15/include",
+        "extraDetailAST": true,
+        "compilationDatabasePath": "/path/to/your/compilation_database",
+        "otherOptions": [
+            "-std=c++14",
+            "-fno-exceptions",
+            "-D_GNU_SOURCE",
+            "-D__STDC_CONSTANT_MACROS",
+            "-D__STDC_FORMAT_MACROS",
+            "-D__STDC_LIMIT_MACROS"
+        ]
+    }
+}

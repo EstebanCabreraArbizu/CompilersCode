@@ -1,5 +1,4 @@
-#clangd archives
-.clangd
+
 # Prerequisites
 *.d
 
@@ -51,3 +50,23 @@
 # Custom for llvm
 *.s
 *.ll
+*.dot
+*.png
+*.arm
+
+# Custom for Cmake
+build/
+CMakeFiles/
+cmake_install.cmake
+CMakeCache.txt
+compile_commands.json
+Makefile
+
+# Custom for clangd
+.cache/
+#vscode
+esteban_compilers.code-workspace
+.json
+
+#clangd archives
+.cache
