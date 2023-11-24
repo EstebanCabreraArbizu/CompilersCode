@@ -22,4 +22,7 @@ export LLVM17L=$LLVMDEPENDENCIES/lib
 # 
 # ubuntu/debian:
 #    clang++ toy.cpp $(llvm-config-15 --cxxflags) -lLLVM-15
-# 
+# Para mostrar el AST con antlr4 usando el comando grun "name_grammar" "rule" -gui
+#     sudo apt install libxrender1
+#     sudo apt-get install libxtst6
+#     sudo apt-get install libxi6
