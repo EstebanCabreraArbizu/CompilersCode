@@ -14,8 +14,10 @@ int main() {
 	auto TheBuilder = std::make_unique<IRBuilder<>>(*TheContext);
 
 	Type *Tys[] = { Type::getInt8PtrTy(*TheContext), Type::getInt32Ty(*TheContext) };
+	//función intrínseca de LLVM, que limpia la memoria del modulo con Intrinsic::getDeclaration
 	Function *memset_func = Intrinsic::getDeclaration(TheModule.get(), Intrinsic::memset, Tys);
 
+	
 	auto getchar_func =
 		TheModule->getOrInsertFunction("getchar", IntegerType::getInt32Ty(*TheContext));
 
@@ -29,4 +31,14 @@ int main() {
 	TheModule->print(errs(), nullptr);
 
 	return 0;
+/*
+ * para compilar
+ *
+ * arch:
+ *   clang++ -lLLVM toy.cpp
+ *
+ * ubuntu/debian:
+ *   clang++ toy.cpp $(llvm-config-15 --cxxflags) -lLLVM-15
+ *
+ * */
 }
