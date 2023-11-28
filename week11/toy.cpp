@@ -391,7 +391,7 @@ static void HandleTopLevelExpression(){
 }
 // top := definition | external | expression | ';'
 static void MainLoop() {
-    while (true) {
+	while (true) {
         fprintf(stderr, "ready> ");
         switch (CurTok) {
         case tok_eof:
@@ -423,7 +423,6 @@ int main() {
 	BinopPrecedence['+'] = 20;
 	BinopPrecedence['-'] = 20;
 	BinopPrecedence['*'] = 40;
-	int tok;
 
 	fprintf(stderr, "ready>");
 	getNextToken();

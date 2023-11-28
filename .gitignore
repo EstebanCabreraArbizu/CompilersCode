@@ -66,7 +66,8 @@ Makefile
 .cache/
 #vscode
 esteban_compilers.code-workspace
-.json
+.vscode
 
 #clangd archives
 .cache
+
