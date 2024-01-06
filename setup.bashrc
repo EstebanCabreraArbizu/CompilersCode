@@ -2,7 +2,9 @@
 
 #source $HOME/Documents/git/vcompilers/bin/activate
 export MYDEPENDENCIES=$HOME/Apps
-export LLVMDEPENDENCIES=$HOME/Documents/git/llvm-project/build
+export LLVMDEPENDENCIES=$HOME/Documents/Projects/llvm-project/build
+export LLVMMYDEPENDENCIES="/usr"
+
 export CLASSPATH=.:$MYDEPENDENCIES/antlr-4.13.1-complete.jar:$CLASSPATH
 alias antlr4='java org.antlr.v4.Tool'
 alias grun='java org.antlr.v4.gui.TestRig'
@@ -14,6 +16,9 @@ export ANTLR4L=$ANTLR4HOME/usr/local/lib/
 export LLVM17I=$LLVMDEPENDENCIES/include
 export LLVM17L=$LLVMDEPENDENCIES/lib
 
+export LLVM15I=$LLVMMYDEPENDENCIES/include/llvm-15
+export LLVM15IC=$LLVMMYDEPENDENCIES/include/llvm-c-15
+export LLVM15L=$LLVMMYDEPENDENCIES/lib/llvm-15
 
 # para compilar archivos cpp de LLVM
 # 

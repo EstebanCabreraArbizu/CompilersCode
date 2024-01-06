@@ -46,7 +46,7 @@
 *.class
 !*Parser.g4
 !*Lexer.g4
-
+*.antlr
 # Custom for llvm
 *.s
 *.ll
